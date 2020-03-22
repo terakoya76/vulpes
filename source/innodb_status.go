@@ -1,6 +1,8 @@
 package source
 
 import (
+	"fmt"
+	"os"
 	"strconv"
 	"strings"
 
@@ -116,7 +118,7 @@ func (p *InnodbStatusParser) scanToNextSection() {
 	}
 }
 
-// Sections are devided by the blocks like below
+// Sections are divided by the blocks like below
 // ------------
 // xxx yyyy zzz
 // ------------
@@ -137,51 +139,75 @@ func (p *InnodbStatusParser) parseContent(s Section, result map[string]interface
 	switch s {
 	case StartOfInnodbMonitorOutput:
 		m := parseStartOfInnodbMonitorOutput(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case BackgroundThread:
 		m := parseBackgroundThreadContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case Semaphores:
 		m := parseSemaphoresContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case Deadlocks:
 		m := parseDeadlocksContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case ForeignKeyError:
 		m := parseForeignKeyErrorContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case Transactions:
 		m := parseTransactionsContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case FileIO:
 		m := parseFileIoContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case InsertBufferAndAdaptiveHashIndex:
 		m := parseInsertBufferAndAdaptiveHashIndexContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case Log:
 		m := parseLogContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case BufferPoolAndMemory:
 		m := parseBufferPoolAndMemoryContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case IndividualBufferPoolInfo:
 		m := parseIndividualBufferPoolInfoContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	case RowOperations:
 		m := parseRowOperationsContent(p.content)
-		mergo.Merge(&result, m)
+		if err := mergo.Merge(&result, m); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 		return result
 	default:
 		return result
@@ -217,17 +243,17 @@ func countUpMetric(key string, increment int, result map[string]interface{}) map
 }
 
 func calcRate(a string, b string) (float64, error) {
-	a_float, err := strconv.ParseFloat(a, 64)
+	aFloat, err := strconv.ParseFloat(a, 64)
 	if err != nil {
 		return 0, err
 	}
 
-	b_float, err := strconv.ParseFloat(b, 64)
+	bFloat, err := strconv.ParseFloat(b, 64)
 	if err != nil {
 		return 0, err
 	}
 
-	return (a_float / b_float), nil
+	return (aFloat / bFloat), nil
 }
 
 func parseStartOfInnodbMonitorOutput(content []string) map[string]interface{} {
@@ -949,7 +975,7 @@ func parseBufferPoolAndMemoryContent(content []string) map[string]interface{} {
 			result = fillMetric("buffer_pool_pages_made_young_per_sec", metricYoung[0], result)
 
 			/*
-			 * The per second average of accesses to old pages in the buffer pool LRU list taht have resulted in not making pages young
+			 * The per second average of accesses to old pages in the buffer pool LRU list that have resulted in not making pages young
 			 */
 			metricNotYoung := strings.Fields(notYoung)
 			result = fillMetric("buffer_pool_pages_not_made_youngs_per_sec", metricNotYoung[0], result)

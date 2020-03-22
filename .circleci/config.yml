@@ -9,7 +9,7 @@ executors:
     docker:
       - image: circleci/golang:<< parameters.go-version >>
         environment:
-          GO111MODULE: on
+          GO111MODULE: "on"
     working_directory: /go/src/github.com/terakoya76/vulpes
 
 commands:
@@ -71,10 +71,9 @@ jobs:
       go-version: << parameters.go-version >>
     steps:
       - checkout
-      - run:
-          name: Install dependencies without go-modules
-          command: go get -t -v ./...
+      - go_mod_download
       - build
+      - lint
       - test
 
   go-latest:
@@ -88,6 +87,7 @@ jobs:
       - checkout
       - go_mod_download
       - build
+      - lint
       - test
 
 workflows:

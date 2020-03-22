@@ -16,45 +16,48 @@ import (
 func main() {
 	var dbConf config.Database
 	if err := envconfig.Process("db", &dbConf); err != nil {
-		fmt.Fprint(os.Stderr, err.Error())
+		panic(err.Error())
 	}
 
 	db := mysql.New("tcp", "", fmt.Sprintf("%s:%d", dbConf.Hostname, dbConf.Port), dbConf.Username, dbConf.Password, "")
 	if err := db.Connect(); err != nil {
-		fmt.Fprint(os.Stderr, err.Error())
+		panic(err.Error())
 	}
 	defer db.Close()
 
 	gStatus, err := source.FetchGlobalStatus(db)
 	if err != nil {
 		fmt.Fprint(os.Stderr, err.Error())
+	} else {
+		res, err := json.Marshal(gStatus)
+		if err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		} else {
+			fmt.Printf("%s\n", res)
+		}
 	}
-
-	res, err := json.Marshal(gStatus)
-	if err != nil {
-		fmt.Fprint(os.Stderr, err.Error())
-	}
-	fmt.Printf("%s\n", res)
 
 	gVar, err := source.FetchGlobalVariables(db)
 	if err != nil {
 		fmt.Fprint(os.Stderr, err.Error())
+	} else {
+		res, err := json.Marshal(gVar)
+		if err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		} else {
+			fmt.Printf("%s\n", res)
+		}
 	}
-
-	res, err = json.Marshal(gVar)
-	if err != nil {
-		fmt.Fprint(os.Stderr, err.Error())
-	}
-	fmt.Printf("%s\n", res)
 
 	iStatus, err := source.FetchInnodbStatus(db)
 	if err != nil {
 		fmt.Fprint(os.Stderr, err.Error())
+	} else {
+		res, err := json.Marshal(iStatus)
+		if err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		} else {
+			fmt.Printf("%s\n", res)
+		}
 	}
-
-	res, err = json.Marshal(iStatus)
-	if err != nil {
-		fmt.Fprint(os.Stderr, err.Error())
-	}
-	fmt.Printf("%s\n", res)
 }

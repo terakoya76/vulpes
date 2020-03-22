@@ -38,7 +38,10 @@ func ParseInnodbStatus(str string) map[string]interface{} {
 	result := make(map[string]interface{})
 	for p.currPos < (len(p.source)-1) && p.currSection != EndOfInnodbMonitorOutput {
 		p.scanToNextSection()
-		result = p.parseContent(p.currSection, result)
+		metrics := p.parseContent(p.currSection)
+		if err := mergo.Merge(&result, metrics); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		}
 
 		p.stepNextSection()
 	}
@@ -135,82 +138,34 @@ func (p *InnodbStatusParser) next() {
 	p.content = append(p.content, p.source[p.currPos])
 }
 
-func (p *InnodbStatusParser) parseContent(s Section, result map[string]interface{}) map[string]interface{} {
+func (p *InnodbStatusParser) parseContent(s Section) map[string]interface{} {
 	switch s {
 	case StartOfInnodbMonitorOutput:
-		m := parseStartOfInnodbMonitorOutput(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseStartOfInnodbMonitorOutput(p.content)
 	case BackgroundThread:
-		m := parseBackgroundThreadContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseBackgroundThreadContent(p.content)
 	case Semaphores:
-		m := parseSemaphoresContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseSemaphoresContent(p.content)
 	case Deadlocks:
-		m := parseDeadlocksContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseDeadlocksContent(p.content)
 	case ForeignKeyError:
-		m := parseForeignKeyErrorContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseForeignKeyErrorContent(p.content)
 	case Transactions:
-		m := parseTransactionsContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseTransactionsContent(p.content)
 	case FileIO:
-		m := parseFileIoContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseFileIoContent(p.content)
 	case InsertBufferAndAdaptiveHashIndex:
-		m := parseInsertBufferAndAdaptiveHashIndexContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseInsertBufferAndAdaptiveHashIndexContent(p.content)
 	case Log:
-		m := parseLogContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseLogContent(p.content)
 	case BufferPoolAndMemory:
-		m := parseBufferPoolAndMemoryContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseBufferPoolAndMemoryContent(p.content)
 	case IndividualBufferPoolInfo:
-		m := parseIndividualBufferPoolInfoContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseIndividualBufferPoolInfoContent(p.content)
 	case RowOperations:
-		m := parseRowOperationsContent(p.content)
-		if err := mergo.Merge(&result, m); err != nil {
-			fmt.Fprint(os.Stderr, err.Error())
-		}
-		return result
+		return parseRowOperationsContent(p.content)
 	default:
-		return result
+		return make(map[string]interface{})
 	}
 }
 

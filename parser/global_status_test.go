@@ -1,0 +1,747 @@
+package parser_test
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	"github.com/terakoya76/vulpes/parser"
+)
+
+const (
+	globalStatus string = `
+Variable_name	Value
+Aborted_clients	0
+Aborted_connects	5
+Binlog_cache_disk_use	0
+Binlog_cache_use	0
+Binlog_stmt_cache_disk_use	0
+Binlog_stmt_cache_use	0
+Bytes_received	3760
+Bytes_sent	108987
+Com_admin_commands	1
+Com_assign_to_keycache	0
+Com_alter_db	0
+Com_alter_db_upgrade	0
+Com_alter_event	0
+Com_alter_function	0
+Com_alter_instance	0
+Com_alter_procedure	0
+Com_alter_server	0
+Com_alter_table	0
+Com_alter_tablespace	0
+Com_alter_user	0
+Com_analyze	0
+Com_begin	0
+Com_binlog	0
+Com_call_procedure	0
+Com_change_db	0
+Com_change_master	0
+Com_change_repl_filter	0
+Com_check	0
+Com_checksum	0
+Com_commit	0
+Com_create_db	0
+Com_create_event	0
+Com_create_function	0
+Com_create_index	0
+Com_create_procedure	0
+Com_create_server	0
+Com_create_table	0
+Com_create_trigger	0
+Com_create_udf	0
+Com_create_user	0
+Com_create_view	0
+Com_dealloc_sql	0
+Com_delete	0
+Com_delete_multi	0
+Com_do	0
+Com_drop_db	0
+Com_drop_event	0
+Com_drop_function	0
+Com_drop_index	0
+Com_drop_procedure	0
+Com_drop_server	0
+Com_drop_table	0
+Com_drop_trigger	0
+Com_drop_user	0
+Com_drop_view	0
+Com_empty_query	0
+Com_execute_sql	0
+Com_explain_other	0
+Com_flush	0
+Com_get_diagnostics	0
+Com_grant	0
+Com_ha_close	0
+Com_ha_open	0
+Com_ha_read	0
+Com_help	0
+Com_insert	0
+Com_insert_select	0
+Com_install_plugin	0
+Com_kill	0
+Com_load	0
+Com_lock_tables	0
+Com_optimize	0
+Com_preload_keys	0
+Com_prepare_sql	0
+Com_purge	0
+Com_purge_before_date	0
+Com_release_savepoint	0
+Com_rename_table	0
+Com_rename_user	0
+Com_repair	0
+Com_replace	0
+Com_replace_select	0
+Com_reset	0
+Com_resignal	0
+Com_revoke	0
+Com_revoke_all	0
+Com_rollback	0
+Com_rollback_to_savepoint	0
+Com_savepoint	0
+Com_select	10
+Com_set_option	1
+Com_signal	0
+Com_show_binlog_events	0
+Com_show_binlogs	0
+Com_show_charsets	0
+Com_show_collations	0
+Com_show_create_db	0
+Com_show_create_event	0
+Com_show_create_func	0
+Com_show_create_proc	0
+Com_show_create_table	0
+Com_show_create_trigger	0
+Com_show_databases	0
+Com_show_engine_logs	0
+Com_show_engine_mutex	0
+Com_show_engine_status	3
+Com_show_events	0
+Com_show_errors	0
+Com_show_fields	0
+Com_show_function_code	0
+Com_show_function_status	0
+Com_show_grants	0
+Com_show_keys	0
+Com_show_master_status	0
+Com_show_open_tables	0
+Com_show_plugins	0
+Com_show_privileges	0
+Com_show_procedure_code	0
+Com_show_procedure_status	0
+Com_show_processlist	0
+Com_show_profile	0
+Com_show_profiles	0
+Com_show_relaylog_events	0
+Com_show_slave_hosts	0
+Com_show_slave_status	0
+Com_show_status	8
+Com_show_storage_engines	0
+Com_show_table_status	0
+Com_show_tables	0
+Com_show_triggers	0
+Com_show_variables	1
+Com_show_warnings	0
+Com_show_create_user	0
+Com_shutdown	0
+Com_slave_start	0
+Com_slave_stop	0
+Com_group_replication_start	0
+Com_group_replication_stop	0
+Com_stmt_execute	0
+Com_stmt_close	0
+Com_stmt_fetch	0
+Com_stmt_prepare	0
+Com_stmt_reset	0
+Com_stmt_send_long_data	0
+Com_truncate	0
+Com_uninstall_plugin	0
+Com_unlock_tables	0
+Com_update	0
+Com_update_multi	0
+Com_xa_commit	0
+Com_xa_end	0
+Com_xa_prepare	0
+Com_xa_recover	0
+Com_xa_rollback	0
+Com_xa_start	0
+Com_stmt_reprepare	0
+Connection_errors_accept	0
+Connection_errors_internal	0
+Connection_errors_max_connections	0
+Connection_errors_peer_address	0
+Connection_errors_select	0
+Connection_errors_tcpwrap	0
+Connections	19
+Created_tmp_disk_tables	0
+Created_tmp_files	6
+Created_tmp_tables	9
+Delayed_errors	0
+Delayed_insert_threads	0
+Delayed_writes	0
+Flush_commands	1
+Handler_commit	10
+Handler_delete	0
+Handler_discover	0
+Handler_external_lock	243
+Handler_mrr_init	0
+Handler_prepare	0
+Handler_read_first	13
+Handler_read_key	11
+Handler_read_last	0
+Handler_read_next	2
+Handler_read_prev	0
+Handler_read_rnd	0
+Handler_read_rnd_next	6012
+Handler_rollback	0
+Handler_savepoint	0
+Handler_savepoint_rollback	0
+Handler_update	0
+Handler_write	2981
+Innodb_buffer_pool_dump_status	Dumping of buffer pool not started
+Innodb_buffer_pool_load_status	Buffer pool(s) load completed at 200511 21:58:54
+Innodb_buffer_pool_resize_status
+Innodb_buffer_pool_pages_data	1034
+Innodb_buffer_pool_bytes_data	16941056
+Innodb_buffer_pool_pages_dirty	0
+Innodb_buffer_pool_bytes_dirty	0
+Innodb_buffer_pool_pages_flushed	36
+Innodb_buffer_pool_pages_free	7152
+Innodb_buffer_pool_pages_misc	6
+Innodb_buffer_pool_pages_total	8192
+Innodb_buffer_pool_read_ahead_rnd	0
+Innodb_buffer_pool_read_ahead	0
+Innodb_buffer_pool_read_ahead_evicted	0
+Innodb_buffer_pool_read_requests	9530
+Innodb_buffer_pool_reads	1001
+Innodb_buffer_pool_wait_free	0
+Innodb_buffer_pool_write_requests	325
+Innodb_data_fsyncs	7
+Innodb_data_pending_fsyncs	0
+Innodb_data_pending_reads	0
+Innodb_data_pending_writes	0
+Innodb_data_read	16470528
+Innodb_data_reads	1083
+Innodb_data_writes	53
+Innodb_data_written	624640
+Innodb_dblwr_pages_written	2
+Innodb_dblwr_writes	1
+Innodb_log_waits	0
+Innodb_log_write_requests	0
+Innodb_log_writes	2
+Innodb_os_log_fsyncs	4
+Innodb_os_log_pending_fsyncs	0
+Innodb_os_log_pending_writes	0
+Innodb_os_log_written	1024
+Innodb_page_size	16384
+Innodb_pages_created	34
+Innodb_pages_read	1000
+Innodb_pages_written	36
+Innodb_row_lock_current_waits	0
+Innodb_row_lock_time	0
+Innodb_row_lock_time_avg	0
+Innodb_row_lock_time_max	0
+Innodb_row_lock_waits	0
+Innodb_rows_deleted	0
+Innodb_rows_inserted	0
+Innodb_rows_read	8
+Innodb_rows_updated	0
+Innodb_num_open_files	74
+Innodb_truncated_status_writes	0
+Innodb_available_undo_logs	128
+Key_blocks_not_flushed	0
+Key_blocks_unused	6695
+Key_blocks_used	3
+Key_read_requests	6
+Key_reads	3
+Key_write_requests	0
+Key_writes	0
+Locked_connects	0
+Max_execution_time_exceeded	0
+Max_execution_time_set	0
+Max_execution_time_set_failed	0
+Max_used_connections	3
+Max_used_connections_time	2020-05-11 21:59:11
+Not_flushed_delayed_rows	0
+Ongoing_anonymous_transaction_count	0
+Open_files	16
+Open_streams	0
+Open_table_definitions	108
+Open_tables	109
+Opened_files	154
+Opened_table_definitions	108
+Opened_tables	116
+Performance_schema_accounts_lost	0
+Performance_schema_cond_classes_lost	0
+Performance_schema_cond_instances_lost	0
+Performance_schema_digest_lost	0
+Performance_schema_file_classes_lost	0
+Performance_schema_file_handles_lost	0
+Performance_schema_file_instances_lost	0
+Performance_schema_hosts_lost	0
+Performance_schema_index_stat_lost	0
+Performance_schema_locker_lost	0
+Performance_schema_memory_classes_lost	0
+Performance_schema_metadata_lock_lost	0
+Performance_schema_mutex_classes_lost	0
+Performance_schema_mutex_instances_lost	0
+Performance_schema_nested_statement_lost	0
+Performance_schema_prepared_statements_lost	0
+Performance_schema_program_lost	0
+Performance_schema_rwlock_classes_lost	0
+Performance_schema_rwlock_instances_lost	0
+Performance_schema_session_connect_attrs_lost	0
+Performance_schema_socket_classes_lost	0
+Performance_schema_socket_instances_lost	0
+Performance_schema_stage_classes_lost	0
+Performance_schema_statement_classes_lost	0
+Performance_schema_table_handles_lost	0
+Performance_schema_table_instances_lost	0
+Performance_schema_table_lock_stat_lost	0
+Performance_schema_thread_classes_lost	0
+Performance_schema_thread_instances_lost	0
+Performance_schema_users_lost	0
+Prepared_stmt_count	0
+Qcache_free_blocks	1
+Qcache_free_memory	1031832
+Qcache_hits	0
+Qcache_inserts	0
+Qcache_lowmem_prunes	0
+Qcache_not_cached	10
+Qcache_queries_in_cache	0
+Qcache_total_blocks	1
+Queries	37
+Questions	35
+Rsa_public_key	-----BEGIN PUBLIC KEY-----\nhogehoge\n-----END PUBLIC KEY-----\n
+Select_full_join	0
+Select_full_range_join	0
+Select_range	0
+Select_range_check	0
+Select_scan	18
+Slave_open_temp_tables	0
+Slow_launch_threads	0
+Slow_queries	0
+Sort_merge_passes	0
+Sort_range	0
+Sort_rows	0
+Sort_scan	0
+Ssl_accept_renegotiates	0
+Ssl_accepts	11
+Ssl_callback_cache_hits	0
+Ssl_cipher	ECDHE-RSA-AES128-GCM-SHA256
+Ssl_cipher_list	ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:DHE-RSA-AES128-SHA256:DHE-DSS-AES128-SHA256:DHE-DSS-AES256-GCM-SHA384:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-DSS-AES128-SHA:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DHE-RSA-AES256-GCM-SHA384
+Ssl_client_connects	0
+Ssl_connect_renegotiates	0
+Ssl_ctx_verify_depth	18446744073709551615
+Ssl_ctx_verify_mode	5
+Ssl_default_timeout	7200
+Ssl_finished_accepts	11
+Ssl_finished_connects	0
+Ssl_server_not_after	Apr  9 17:50:46 2030 GMT
+Ssl_server_not_before	Apr 11 17:50:46 2020 GMT
+Ssl_session_cache_hits	0
+Ssl_session_cache_misses	11
+Ssl_session_cache_mode	SERVER
+Ssl_session_cache_overflows	0
+Ssl_session_cache_size	128
+Ssl_session_cache_timeouts	0
+Ssl_sessions_reused	0
+Ssl_used_session_cache_entries	0
+Ssl_verify_depth	18446744073709551615
+Ssl_verify_mode	5
+Ssl_version	TLSv1.2
+Table_locks_immediate	107
+Table_locks_waited	0
+Table_open_cache_hits	6
+Table_open_cache_misses	116
+Table_open_cache_overflows	0
+Tc_log_max_pages_used	0
+Tc_log_page_size	0
+Tc_log_page_waits	0
+Threads_cached	2
+Threads_connected	1
+Threads_created	3
+Threads_running	1
+Uptime	8710
+Uptime_since_flush_status	8710
+`
+)
+
+var (
+	globalStatusResult map[string]interface{} = map[string]interface{}{
+		"aborted_clients":                               0.0,
+		"aborted_connects":                              5.0,
+		"binlog_cache_disk_use":                         0.0,
+		"binlog_cache_use":                              0.0,
+		"binlog_stmt_cache_disk_use":                    0.0,
+		"binlog_stmt_cache_use":                         0.0,
+		"bytes_received":                                3760.0,
+		"bytes_sent":                                    108987.0,
+		"com_admin_commands":                            1.0,
+		"com_alter_db":                                  0.0,
+		"com_alter_db_upgrade":                          0.0,
+		"com_alter_event":                               0.0,
+		"com_alter_function":                            0.0,
+		"com_alter_instance":                            0.0,
+		"com_alter_procedure":                           0.0,
+		"com_alter_server":                              0.0,
+		"com_alter_table":                               0.0,
+		"com_alter_tablespace":                          0.0,
+		"com_alter_user":                                0.0,
+		"com_analyze":                                   0.0,
+		"com_assign_to_keycache":                        0.0,
+		"com_begin":                                     0.0,
+		"com_binlog":                                    0.0,
+		"com_call_procedure":                            0.0,
+		"com_change_db":                                 0.0,
+		"com_change_master":                             0.0,
+		"com_change_repl_filter":                        0.0,
+		"com_check":                                     0.0,
+		"com_checksum":                                  0.0,
+		"com_commit":                                    0.0,
+		"com_create_db":                                 0.0,
+		"com_create_event":                              0.0,
+		"com_create_function":                           0.0,
+		"com_create_index":                              0.0,
+		"com_create_procedure":                          0.0,
+		"com_create_server":                             0.0,
+		"com_create_table":                              0.0,
+		"com_create_trigger":                            0.0,
+		"com_create_udf":                                0.0,
+		"com_create_user":                               0.0,
+		"com_create_view":                               0.0,
+		"com_dealloc_sql":                               0.0,
+		"com_delete":                                    0.0,
+		"com_delete_multi":                              0.0,
+		"com_do":                                        0.0,
+		"com_drop_db":                                   0.0,
+		"com_drop_event":                                0.0,
+		"com_drop_function":                             0.0,
+		"com_drop_index":                                0.0,
+		"com_drop_procedure":                            0.0,
+		"com_drop_server":                               0.0,
+		"com_drop_table":                                0.0,
+		"com_drop_trigger":                              0.0,
+		"com_drop_user":                                 0.0,
+		"com_drop_view":                                 0.0,
+		"com_empty_query":                               0.0,
+		"com_execute_sql":                               0.0,
+		"com_explain_other":                             0.0,
+		"com_flush":                                     0.0,
+		"com_get_diagnostics":                           0.0,
+		"com_grant":                                     0.0,
+		"com_group_replication_start":                   0.0,
+		"com_group_replication_stop":                    0.0,
+		"com_ha_close":                                  0.0,
+		"com_ha_open":                                   0.0,
+		"com_ha_read":                                   0.0,
+		"com_help":                                      0.0,
+		"com_insert":                                    0.0,
+		"com_insert_select":                             0.0,
+		"com_install_plugin":                            0.0,
+		"com_kill":                                      0.0,
+		"com_load":                                      0.0,
+		"com_lock_tables":                               0.0,
+		"com_optimize":                                  0.0,
+		"com_preload_keys":                              0.0,
+		"com_prepare_sql":                               0.0,
+		"com_purge":                                     0.0,
+		"com_purge_before_date":                         0.0,
+		"com_release_savepoint":                         0.0,
+		"com_rename_table":                              0.0,
+		"com_rename_user":                               0.0,
+		"com_repair":                                    0.0,
+		"com_replace":                                   0.0,
+		"com_replace_select":                            0.0,
+		"com_reset":                                     0.0,
+		"com_resignal":                                  0.0,
+		"com_revoke":                                    0.0,
+		"com_revoke_all":                                0.0,
+		"com_rollback":                                  0.0,
+		"com_rollback_to_savepoint":                     0.0,
+		"com_savepoint":                                 0.0,
+		"com_select":                                    10.0,
+		"com_set_option":                                1.0,
+		"com_show_binlog_events":                        0.0,
+		"com_show_binlogs":                              0.0,
+		"com_show_charsets":                             0.0,
+		"com_show_collations":                           0.0,
+		"com_show_create_db":                            0.0,
+		"com_show_create_event":                         0.0,
+		"com_show_create_func":                          0.0,
+		"com_show_create_proc":                          0.0,
+		"com_show_create_table":                         0.0,
+		"com_show_create_trigger":                       0.0,
+		"com_show_create_user":                          0.0,
+		"com_show_databases":                            0.0,
+		"com_show_engine_logs":                          0.0,
+		"com_show_engine_mutex":                         0.0,
+		"com_show_engine_status":                        3.0,
+		"com_show_errors":                               0.0,
+		"com_show_events":                               0.0,
+		"com_show_fields":                               0.0,
+		"com_show_function_code":                        0.0,
+		"com_show_function_status":                      0.0,
+		"com_show_grants":                               0.0,
+		"com_show_keys":                                 0.0,
+		"com_show_master_status":                        0.0,
+		"com_show_open_tables":                          0.0,
+		"com_show_plugins":                              0.0,
+		"com_show_privileges":                           0.0,
+		"com_show_procedure_code":                       0.0,
+		"com_show_procedure_status":                     0.0,
+		"com_show_processlist":                          0.0,
+		"com_show_profile":                              0.0,
+		"com_show_profiles":                             0.0,
+		"com_show_relaylog_events":                      0.0,
+		"com_show_slave_hosts":                          0.0,
+		"com_show_slave_status":                         0.0,
+		"com_show_status":                               8.0,
+		"com_show_storage_engines":                      0.0,
+		"com_show_table_status":                         0.0,
+		"com_show_tables":                               0.0,
+		"com_show_triggers":                             0.0,
+		"com_show_variables":                            1.0,
+		"com_show_warnings":                             0.0,
+		"com_shutdown":                                  0.0,
+		"com_signal":                                    0.0,
+		"com_slave_start":                               0.0,
+		"com_slave_stop":                                0.0,
+		"com_stmt_close":                                0.0,
+		"com_stmt_execute":                              0.0,
+		"com_stmt_fetch":                                0.0,
+		"com_stmt_prepare":                              0.0,
+		"com_stmt_reprepare":                            0.0,
+		"com_stmt_reset":                                0.0,
+		"com_stmt_send_long_data":                       0.0,
+		"com_truncate":                                  0.0,
+		"com_uninstall_plugin":                          0.0,
+		"com_unlock_tables":                             0.0,
+		"com_update":                                    0.0,
+		"com_update_multi":                              0.0,
+		"com_xa_commit":                                 0.0,
+		"com_xa_end":                                    0.0,
+		"com_xa_prepare":                                0.0,
+		"com_xa_recover":                                0.0,
+		"com_xa_rollback":                               0.0,
+		"com_xa_start":                                  0.0,
+		"connection_errors_accept":                      0.0,
+		"connection_errors_internal":                    0.0,
+		"connection_errors_max_connections":             0.0,
+		"connection_errors_peer_address":                0.0,
+		"connection_errors_select":                      0.0,
+		"connection_errors_tcpwrap":                     0.0,
+		"connections":                                   19.0,
+		"created_tmp_disk_tables":                       0.0,
+		"created_tmp_files":                             6.0,
+		"created_tmp_tables":                            9.0,
+		"delayed_errors":                                0.0,
+		"delayed_insert_threads":                        0.0,
+		"delayed_writes":                                0.0,
+		"flush_commands":                                1.0,
+		"handler_commit":                                10.0,
+		"handler_delete":                                0.0,
+		"handler_discover":                              0.0,
+		"handler_external_lock":                         243.0,
+		"handler_mrr_init":                              0.0,
+		"handler_prepare":                               0.0,
+		"handler_read_first":                            13.0,
+		"handler_read_key":                              11.0,
+		"handler_read_last":                             0.0,
+		"handler_read_next":                             2.0,
+		"handler_read_prev":                             0.0,
+		"handler_read_rnd":                              0.0,
+		"handler_read_rnd_next":                         6012.0,
+		"handler_rollback":                              0.0,
+		"handler_savepoint":                             0.0,
+		"handler_savepoint_rollback":                    0.0,
+		"handler_update":                                0.0,
+		"handler_write":                                 2981.0,
+		"innodb_available_undo_logs":                    128.0,
+		"innodb_buffer_pool_bytes_data":                 1.6941056e+07,
+		"innodb_buffer_pool_bytes_dirty":                0.0,
+		"innodb_buffer_pool_pages_data":                 1034.0,
+		"innodb_buffer_pool_pages_dirty":                0.0,
+		"innodb_buffer_pool_pages_flushed":              36.0,
+		"innodb_buffer_pool_pages_free":                 7152.0,
+		"innodb_buffer_pool_pages_misc":                 6.0,
+		"innodb_buffer_pool_pages_total":                8192.0,
+		"innodb_buffer_pool_read_ahead":                 0.0,
+		"innodb_buffer_pool_read_ahead_evicted":         0.0,
+		"innodb_buffer_pool_read_ahead_rnd":             0.0,
+		"innodb_buffer_pool_read_requests":              9530.0,
+		"innodb_buffer_pool_reads":                      1001.0,
+		"innodb_buffer_pool_wait_free":                  0.0,
+		"innodb_buffer_pool_write_requests":             325.0,
+		"innodb_data_fsyncs":                            7.0,
+		"innodb_data_pending_fsyncs":                    0.0,
+		"innodb_data_pending_reads":                     0.0,
+		"innodb_data_pending_writes":                    0.0,
+		"innodb_data_read":                              1.6470528e+07,
+		"innodb_data_reads":                             1083.0,
+		"innodb_data_writes":                            53.0,
+		"innodb_data_written":                           624640.0,
+		"innodb_dblwr_pages_written":                    2.0,
+		"innodb_dblwr_writes":                           1.0,
+		"innodb_log_waits":                              0.0,
+		"innodb_log_write_requests":                     0.0,
+		"innodb_log_writes":                             2.0,
+		"innodb_num_open_files":                         74.0,
+		"innodb_os_log_fsyncs":                          4.0,
+		"innodb_os_log_pending_fsyncs":                  0.0,
+		"innodb_os_log_pending_writes":                  0.0,
+		"innodb_os_log_written":                         1024.0,
+		"innodb_page_size":                              16384.0,
+		"innodb_pages_created":                          34.0,
+		"innodb_pages_read":                             1000.0,
+		"innodb_pages_written":                          36.0,
+		"innodb_row_lock_current_waits":                 0.0,
+		"innodb_row_lock_time":                          0.0,
+		"innodb_row_lock_time_avg":                      0.0,
+		"innodb_row_lock_time_max":                      0.0,
+		"innodb_row_lock_waits":                         0.0,
+		"innodb_rows_deleted":                           0.0,
+		"innodb_rows_inserted":                          0.0,
+		"innodb_rows_read":                              8.0,
+		"innodb_rows_updated":                           0.0,
+		"innodb_truncated_status_writes":                0.0,
+		"key_blocks_not_flushed":                        0.0,
+		"key_blocks_unused":                             6695.0,
+		"key_blocks_used":                               3.0,
+		"key_read_requests":                             6.0,
+		"key_reads":                                     3.0,
+		"key_write_requests":                            0.0,
+		"key_writes":                                    0.0,
+		"locked_connects":                               0.0,
+		"max_execution_time_exceeded":                   0.0,
+		"max_execution_time_set":                        0.0,
+		"max_execution_time_set_failed":                 0.0,
+		"max_used_connections":                          3.0,
+		"not_flushed_delayed_rows":                      0.0,
+		"ongoing_anonymous_transaction_count":           0.0,
+		"open_files":                                    16.0,
+		"open_streams":                                  0.0,
+		"open_table_definitions":                        108.0,
+		"open_tables":                                   109.0,
+		"opened_files":                                  154.0,
+		"opened_table_definitions":                      108.0,
+		"opened_tables":                                 116.0,
+		"performance_schema_accounts_lost":              0.0,
+		"performance_schema_cond_classes_lost":          0.0,
+		"performance_schema_cond_instances_lost":        0.0,
+		"performance_schema_digest_lost":                0.0,
+		"performance_schema_file_classes_lost":          0.0,
+		"performance_schema_file_handles_lost":          0.0,
+		"performance_schema_file_instances_lost":        0.0,
+		"performance_schema_hosts_lost":                 0.0,
+		"performance_schema_index_stat_lost":            0.0,
+		"performance_schema_locker_lost":                0.0,
+		"performance_schema_memory_classes_lost":        0.0,
+		"performance_schema_metadata_lock_lost":         0.0,
+		"performance_schema_mutex_classes_lost":         0.0,
+		"performance_schema_mutex_instances_lost":       0.0,
+		"performance_schema_nested_statement_lost":      0.0,
+		"performance_schema_prepared_statements_lost":   0.0,
+		"performance_schema_program_lost":               0.0,
+		"performance_schema_rwlock_classes_lost":        0.0,
+		"performance_schema_rwlock_instances_lost":      0.0,
+		"performance_schema_session_connect_attrs_lost": 0.0,
+		"performance_schema_socket_classes_lost":        0.0,
+		"performance_schema_socket_instances_lost":      0.0,
+		"performance_schema_stage_classes_lost":         0.0,
+		"performance_schema_statement_classes_lost":     0.0,
+		"performance_schema_table_handles_lost":         0.0,
+		"performance_schema_table_instances_lost":       0.0,
+		"performance_schema_table_lock_stat_lost":       0.0,
+		"performance_schema_thread_classes_lost":        0.0,
+		"performance_schema_thread_instances_lost":      0.0,
+		"performance_schema_users_lost":                 0.0,
+		"prepared_stmt_count":                           0.0,
+		"qcache_free_blocks":                            1.0,
+		"qcache_free_memory":                            1.031832e+06,
+		"qcache_hits":                                   0.0,
+		"qcache_inserts":                                0.0,
+		"qcache_lowmem_prunes":                          0.0,
+		"qcache_not_cached":                             10.0,
+		"qcache_queries_in_cache":                       0.0,
+		"qcache_total_blocks":                           1.0,
+		"queries":                                       37.0,
+		"questions":                                     35.0,
+		"select_full_join":                              0.0,
+		"select_full_range_join":                        0.0,
+		"select_range":                                  0.0,
+		"select_range_check":                            0.0,
+		"select_scan":                                   18.0,
+		"slave_open_temp_tables":                        0.0,
+		"slow_launch_threads":                           0.0,
+		"slow_queries":                                  0.0,
+		"sort_merge_passes":                             0.0,
+		"sort_range":                                    0.0,
+		"sort_rows":                                     0.0,
+		"sort_scan":                                     0.0,
+		"ssl_accept_renegotiates":                       0.0,
+		"ssl_accepts":                                   11.0,
+		"ssl_callback_cache_hits":                       0.0,
+		"ssl_cipher":                                    "ECDHE-RSA-AES128-GCM-SHA256",
+		"ssl_cipher_list":                               "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:DHE-RSA-AES128-SHA256:DHE-DSS-AES128-SHA256:DHE-DSS-AES256-GCM-SHA384:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-DSS-AES128-SHA:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DHE-RSA-AES256-GCM-SHA384",
+		"ssl_client_connects":                           0.0,
+		"ssl_connect_renegotiates":                      0.0,
+		"ssl_ctx_verify_depth":                          1.8446744073709552e+19,
+		"ssl_ctx_verify_mode":                           5.0,
+		"ssl_default_timeout":                           7200.0,
+		"ssl_finished_accepts":                          11.0,
+		"ssl_finished_connects":                         0.0,
+		"ssl_session_cache_hits":                        0.0,
+		"ssl_session_cache_misses":                      11.0,
+		"ssl_session_cache_mode":                        "SERVER",
+		"ssl_session_cache_overflows":                   0.0,
+		"ssl_session_cache_size":                        128.0,
+		"ssl_session_cache_timeouts":                    0.0,
+		"ssl_sessions_reused":                           0.0,
+		"ssl_used_session_cache_entries":                0.0,
+		"ssl_verify_depth":                              1.8446744073709552e+19,
+		"ssl_verify_mode":                               5.0,
+		"ssl_version":                                   "TLSv1.2",
+		"table_locks_immediate":                         107.0,
+		"table_locks_waited":                            0.0,
+		"table_open_cache_hits":                         6.0,
+		"table_open_cache_misses":                       116.0,
+		"table_open_cache_overflows":                    0.0,
+		"tc_log_max_pages_used":                         0.0,
+		"tc_log_page_size":                              0.0,
+		"tc_log_page_waits":                             0.0,
+		"threads_cached":                                2.0,
+		"threads_connected":                             1.0,
+		"threads_created":                               3.0,
+		"threads_running":                               1.0,
+		"uptime":                                        8710.0,
+		"uptime_since_flush_status":                     8710.0,
+	}
+)
+
+func TestParseGlobalStatus(t *testing.T) {
+	cases := []struct {
+		name     string
+		str      string
+		expected map[string]interface{}
+		err      error
+	}{
+		{
+			name:     "global status",
+			str:      globalStatus,
+			expected: globalStatusResult,
+			err:      nil,
+		},
+	}
+
+	for _, c := range cases {
+		actual, err := parser.ParseGlobalStatus(c.str)
+		if err != nil {
+			t.Errorf("err: %s\n", err.Error())
+		}
+		if !assert.Equal(t, c.expected, actual) {
+			t.Errorf("case: %s is failed, expected: %+v, actual: %+v\n", c.name, c.expected, actual)
+		}
+	}
+}

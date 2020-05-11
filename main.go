@@ -1,63 +1,91 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 
-	"github.com/kelseyhightower/envconfig"
-	"github.com/ziutek/mymysql/mysql"
-	_ "github.com/ziutek/mymysql/native"
+	"github.com/spf13/cobra"
 
-	"github.com/terakoya76/vulpes/config"
-	"github.com/terakoya76/vulpes/source"
+	"github.com/terakoya76/vulpes/parser"
 )
 
 func main() {
-	var dbConf config.Database
-	if err := envconfig.Process("db", &dbConf); err != nil {
-		panic(err.Error())
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(-1)
 	}
+}
 
-	db := mysql.New("tcp", "", fmt.Sprintf("%s:%d", dbConf.Hostname, dbConf.Port), dbConf.Username, dbConf.Password, "")
-	if err := db.Connect(); err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
+func init() {
+	cobra.OnInitialize()
+	rootCmd.DisableSuggestions = false
 
-	gStatus, err := source.FetchGlobalStatus(db)
-	if err != nil {
-		fmt.Fprint(os.Stderr, err.Error())
-	} else {
-		res, err := json.Marshal(gStatus)
+	rootCmd.AddCommand(globalStatusCmd)
+	rootCmd.AddCommand(globalVariablesCmd)
+	rootCmd.AddCommand(innodbStatusCmd)
+	rootCmd.AddCommand(slaveStatusCmd)
+}
+
+var rootCmd = &cobra.Command{
+	Use:   "vulpes",
+	Short: "vulpes parse MySQL status output and output it as JSON",
+	Long:  "",
+	Run:   func(cmd *cobra.Command, args []string) {},
+}
+
+var globalStatusCmd = &cobra.Command{
+	Use:   "global_status",
+	Short: "JSONize SHOW GLOBAL STATUS OUTPUT from stdin",
+	Long:  "",
+	Run: func(cmd *cobra.Command, args []string) {
+		stdin, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 		} else {
-			fmt.Printf("%s\n", res)
+			parser.JSONizeGlobalStatus(string(stdin))
 		}
-	}
+	},
+}
 
-	gVar, err := source.FetchGlobalVariables(db)
-	if err != nil {
-		fmt.Fprint(os.Stderr, err.Error())
-	} else {
-		res, err := json.Marshal(gVar)
+var globalVariablesCmd = &cobra.Command{
+	Use:   "global_variables",
+	Short: "JSONize SHOW GLOBAL VARIABLES OUTPUT from stdin",
+	Long:  "",
+	Run: func(cmd *cobra.Command, args []string) {
+		stdin, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 		} else {
-			fmt.Printf("%s\n", res)
+			parser.JSONizeGlobalVariables(string(stdin))
 		}
-	}
+	},
+}
 
-	iStatus, err := source.FetchInnodbStatus(db)
-	if err != nil {
-		fmt.Fprint(os.Stderr, err.Error())
-	} else {
-		res, err := json.Marshal(iStatus)
+var innodbStatusCmd = &cobra.Command{
+	Use:   "innodb_status",
+	Short: "JSONize SHOW INNODB STATUS OUTPUT from stdin",
+	Long:  "",
+	Run: func(cmd *cobra.Command, args []string) {
+		stdin, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 		} else {
-			fmt.Printf("%s\n", res)
+			parser.JSONizeInnodbStatus(string(stdin))
 		}
-	}
+	},
+}
+
+var slaveStatusCmd = &cobra.Command{
+	Use:   "slave_status",
+	Short: "JSONize SHOW SLAVE STATUS OUTPUT from stdin",
+	Long:  "",
+	Run: func(cmd *cobra.Command, args []string) {
+		stdin, err := ioutil.ReadAll(os.Stdin)
+		if err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		} else {
+			parser.JSONizeSlaveStatus(string(stdin))
+		}
+	},
 }

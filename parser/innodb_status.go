@@ -1,33 +1,35 @@
-package source
+package parser
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
 
 	"github.com/imdario/mergo"
-	"github.com/ziutek/mymysql/mysql"
 )
 
-// FetchInnodbStatus returns result
-func FetchInnodbStatus(db mysql.Conn) (map[string]interface{}, error) {
-	rows, _, err := db.Query("SHOW ENGINE INNODB STATUS")
+// JSONizeInnodbStatus returns result
+func JSONizeInnodbStatus(str string) {
+	iStatus, err := ParseInnodbStatus(str)
 	if err != nil {
-		return nil, err
+		fmt.Fprint(os.Stderr, err.Error())
+	} else {
+		res, err := json.Marshal(iStatus)
+		if err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+		} else {
+			fmt.Printf("%s\n", res)
+		}
 	}
-
-	var result map[string]interface{}
-	for _, row := range rows {
-		statusStr := row.Str(len(row) - 1)
-		result = ParseInnodbStatus(statusStr)
-	}
-
-	return result, nil
 }
 
-func ParseInnodbStatus(str string) map[string]interface{} {
+// ParseInnodbStatus returns result
+func ParseInnodbStatus(str string) (map[string]interface{}, error) {
+	result := make(map[string]interface{})
 	lines := strings.Split(str, "\n")
+
 	p := InnodbStatusParser{
 		source:      lines,
 		content:     []string{lines[0]},
@@ -35,7 +37,6 @@ func ParseInnodbStatus(str string) map[string]interface{} {
 		currSection: StartOfInnodbMonitorOutput,
 	}
 
-	result := make(map[string]interface{})
 	for p.currPos < (len(p.source)-1) && p.currSection != EndOfInnodbMonitorOutput {
 		p.scanToNextSection()
 		metrics := p.parseContent(p.currSection)
@@ -46,7 +47,7 @@ func ParseInnodbStatus(str string) map[string]interface{} {
 		p.stepNextSection()
 	}
 
-	return result
+	return result, nil
 }
 
 type Section int

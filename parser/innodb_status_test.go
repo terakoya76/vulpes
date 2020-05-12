@@ -1,15 +1,19 @@
-package source_test
+package parser_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/terakoya76/vulpes/source"
+	"github.com/terakoya76/vulpes/parser"
 )
 
 const (
 	innodbStatus56 string = `
+*************************** 1. row ***************************
+  Type: InnoDB
+  Name:
+Status:
 =====================================
 2015-03-09 20:11:22 7f6c0c845700 INNODB MONITOR OUTPUT
 =====================================
@@ -118,6 +122,10 @@ END OF INNODB MONITOR OUTPUT
 `
 
 	innodbStatus57 string = `
+*************************** 1. row ***************************
+  Type: InnoDB
+  Name:
+Status:
 =====================================
 2016-02-22 19:08:31 0x700000eda000 INNODB MONITOR OUTPUT
 =====================================
@@ -305,7 +313,7 @@ END OF INNODB MONITOR OUTPUT
 )
 
 var (
-	innodbResult56 map[string]interface{} = map[string]interface{}{
+	innodbStatusResult56 map[string]interface{} = map[string]interface{}{
 		// background_thread
 		"background_active_thread_loops":         178.0,
 		"background_idle_thread_loops":           1.244368e+06,
@@ -404,7 +412,7 @@ var (
 		"trx_id_counter":          1.093821584e+09,
 	}
 
-	innodbResult57 map[string]interface{} = map[string]interface{}{
+	innodbStatusResult57 map[string]interface{} = map[string]interface{}{
 		// background_thread
 		"background_active_thread_loops":         1.0,
 		"background_idle_thread_loops":           2.0,
@@ -515,29 +523,32 @@ var (
 
 func TestParseInnodbStatus(t *testing.T) {
 	cases := []struct {
-		name   string
-		status string
-		result map[string]interface{}
-		err    error
+		name     string
+		str      string
+		expected map[string]interface{}
+		err      error
 	}{
 		{
-			name:   "mysql5.6",
-			status: innodbStatus56,
-			result: innodbResult56,
-			err:    nil,
+			name:     "mysql5.6",
+			str:      innodbStatus56,
+			expected: innodbStatusResult56,
+			err:      nil,
 		},
 		{
-			name:   "mysql5.7",
-			status: innodbStatus57,
-			result: innodbResult57,
-			err:    nil,
+			name:     "mysql5.7",
+			str:      innodbStatus57,
+			expected: innodbStatusResult57,
+			err:      nil,
 		},
 	}
 
 	for _, c := range cases {
-		result := source.ParseInnodbStatus(c.status)
-		if !assert.Equal(t, c.result, result) {
-			t.Errorf("case: %s is failed, expected: %+v, actual: %+v\n", c.name, c.result, result)
+		actual, err := parser.ParseInnodbStatus(c.str)
+		if err != nil {
+			t.Errorf("err: %s\n", err.Error())
+		}
+		if !assert.Equal(t, c.expected, actual) {
+			t.Errorf("case: %s is failed, expected: %+v, actual: %+v\n", c.name, c.expected, actual)
 		}
 	}
 }

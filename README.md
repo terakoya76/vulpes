@@ -1,5 +1,5 @@
 # vulpes
-[![CircleCI](https://circleci.com/gh/terakoya76/vulpes.svg?style=svg)](https://circleci.com/gh/terakoya76/vulpes)
+![test](https://github.com/terakoya76/vulpes/workflows/test/badge.svg)
 
 MySQL metrics parser.
 

@@ -36,7 +36,7 @@ Com_begin	0
 Com_binlog	0
 Com_call_procedure	0
 Com_change_db	0
-Com_change_master	0
+Com_change_main	0
 Com_change_repl_filter	0
 Com_check	0
 Com_checksum	0
@@ -124,7 +124,7 @@ Com_show_function_code	0
 Com_show_function_status	0
 Com_show_grants	0
 Com_show_keys	0
-Com_show_master_status	0
+Com_show_main_status	0
 Com_show_open_tables	0
 Com_show_plugins	0
 Com_show_privileges	0
@@ -134,8 +134,8 @@ Com_show_processlist	0
 Com_show_profile	0
 Com_show_profiles	0
 Com_show_relaylog_events	0
-Com_show_slave_hosts	0
-Com_show_slave_status	0
+Com_show_subordinate_hosts	0
+Com_show_subordinate_status	0
 Com_show_status	8
 Com_show_storage_engines	0
 Com_show_table_status	0
@@ -145,8 +145,8 @@ Com_show_variables	1
 Com_show_warnings	0
 Com_show_create_user	0
 Com_shutdown	0
-Com_slave_start	0
-Com_slave_stop	0
+Com_subordinate_start	0
+Com_subordinate_stop	0
 Com_group_replication_start	0
 Com_group_replication_stop	0
 Com_stmt_execute	0
@@ -319,7 +319,7 @@ Select_full_range_join	0
 Select_range	0
 Select_range_check	0
 Select_scan	18
-Slave_open_temp_tables	0
+Subordinate_open_temp_tables	0
 Slow_launch_threads	0
 Slow_queries	0
 Sort_merge_passes	0
@@ -395,7 +395,7 @@ var (
 		"com_binlog":                                    0.0,
 		"com_call_procedure":                            0.0,
 		"com_change_db":                                 0.0,
-		"com_change_master":                             0.0,
+		"com_change_main":                             0.0,
 		"com_change_repl_filter":                        0.0,
 		"com_check":                                     0.0,
 		"com_checksum":                                  0.0,
@@ -485,7 +485,7 @@ var (
 		"com_show_function_status":                      0.0,
 		"com_show_grants":                               0.0,
 		"com_show_keys":                                 0.0,
-		"com_show_master_status":                        0.0,
+		"com_show_main_status":                        0.0,
 		"com_show_open_tables":                          0.0,
 		"com_show_plugins":                              0.0,
 		"com_show_privileges":                           0.0,
@@ -495,8 +495,8 @@ var (
 		"com_show_profile":                              0.0,
 		"com_show_profiles":                             0.0,
 		"com_show_relaylog_events":                      0.0,
-		"com_show_slave_hosts":                          0.0,
-		"com_show_slave_status":                         0.0,
+		"com_show_subordinate_hosts":                          0.0,
+		"com_show_subordinate_status":                         0.0,
 		"com_show_status":                               8.0,
 		"com_show_storage_engines":                      0.0,
 		"com_show_table_status":                         0.0,
@@ -506,8 +506,8 @@ var (
 		"com_show_warnings":                             0.0,
 		"com_shutdown":                                  0.0,
 		"com_signal":                                    0.0,
-		"com_slave_start":                               0.0,
-		"com_slave_stop":                                0.0,
+		"com_subordinate_start":                               0.0,
+		"com_subordinate_stop":                                0.0,
 		"com_stmt_close":                                0.0,
 		"com_stmt_execute":                              0.0,
 		"com_stmt_fetch":                                0.0,
@@ -673,7 +673,7 @@ var (
 		"select_range":                                  0.0,
 		"select_range_check":                            0.0,
 		"select_scan":                                   18.0,
-		"slave_open_temp_tables":                        0.0,
+		"subordinate_open_temp_tables":                        0.0,
 		"slow_launch_threads":                           0.0,
 		"slow_queries":                                  0.0,
 		"sort_merge_passes":                             0.0,

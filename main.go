@@ -24,7 +24,7 @@ func init() {
 	rootCmd.AddCommand(globalStatusCmd)
 	rootCmd.AddCommand(globalVariablesCmd)
 	rootCmd.AddCommand(innodbStatusCmd)
-	rootCmd.AddCommand(slaveStatusCmd)
+	rootCmd.AddCommand(subordinateStatusCmd)
 }
 
 var rootCmd = &cobra.Command{
@@ -76,8 +76,8 @@ var innodbStatusCmd = &cobra.Command{
 	},
 }
 
-var slaveStatusCmd = &cobra.Command{
-	Use:   "slave_status",
+var subordinateStatusCmd = &cobra.Command{
+	Use:   "subordinate_status",
 	Short: "JSONize SHOW SLAVE STATUS OUTPUT from stdin",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -85,7 +85,7 @@ var slaveStatusCmd = &cobra.Command{
 		if err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 		} else {
-			parser.JSONizeSlaveStatus(string(stdin))
+			parser.JSONizeSubordinateStatus(string(stdin))
 		}
 	},
 }

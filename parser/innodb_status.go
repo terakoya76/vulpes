@@ -231,7 +231,7 @@ func parseStartOfInnodbMonitorOutput(content []string) map[string]interface{} {
 func parseBackgroundThreadContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 	for _, line := range content {
-		item := "srv_master_thread loops: "
+		item := "srv_main_thread loops: "
 		if strings.HasPrefix(line, item) {
 			parts := strings.Split(line, ", ")
 			active, shutdown, idle := parts[0], parts[1], parts[2]
@@ -255,7 +255,7 @@ func parseBackgroundThreadContent(content []string) map[string]interface{} {
 			result = fillMetric("background_idle_thread_loops", metricIdle[0], result)
 		}
 
-		item = "srv_master_thread log flush and writes: "
+		item = "srv_main_thread log flush and writes: "
 		if strings.HasPrefix(line, item) {
 			/*
 			 * The total number of background thread's log flush/write operations

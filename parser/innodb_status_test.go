@@ -21,8 +21,8 @@ Per second averages calculated from the last 6 seconds
 -----------------
 BACKGROUND THREAD
 -----------------
-srv_master_thread loops: 178 srv_active, 0 srv_shutdown, 1244368 srv_idle
-srv_master_thread log flush and writes: 1244546
+srv_main_thread loops: 178 srv_active, 0 srv_shutdown, 1244368 srv_idle
+srv_main_thread log flush and writes: 1244546
 ----------
 SEMAPHORES
 ----------
@@ -133,8 +133,8 @@ Per second averages calculated from the last 4 seconds
 -----------------
 BACKGROUND THREAD
 -----------------
-srv_master_thread loops: 1 srv_active, 0 srv_shutdown, 2 srv_idle
-srv_master_thread log flush and writes: 3
+srv_main_thread loops: 1 srv_active, 0 srv_shutdown, 2 srv_idle
+srv_main_thread log flush and writes: 3
 ----------
 SEMAPHORES
 ----------

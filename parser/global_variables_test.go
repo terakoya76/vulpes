@@ -108,7 +108,7 @@ ignore_builtin_innodb	OFF
 ignore_db_dirs
 init_connect
 init_file
-init_slave
+init_subordinate
 innodb_adaptive_flushing	ON
 innodb_adaptive_flushing_lwm	10
 innodb_adaptive_hash_index	ON
@@ -271,9 +271,9 @@ log_error	stderr
 log_error_verbosity	3
 log_output	FILE
 log_queries_not_using_indexes	OFF
-log_slave_updates	OFF
+log_subordinate_updates	OFF
 log_slow_admin_statements	OFF
-log_slow_slave_statements	OFF
+log_slow_subordinate_statements	OFF
 log_statements_unsafe_for_binlog	ON
 log_syslog	OFF
 log_syslog_facility	daemon
@@ -286,8 +286,8 @@ long_query_time	10.000000
 low_priority_updates	OFF
 lower_case_file_system	OFF
 lower_case_table_names	0
-master_info_repository	FILE
-master_verify_checksum	OFF
+main_info_repository	FILE
+main_verify_checksum	OFF
 max_allowed_packet	4194304
 max_binlog_cache_size	18446744073709547520
 max_binlog_size	1073741824
@@ -419,7 +419,7 @@ report_password
 report_port	3306
 report_user
 require_secure_transport	OFF
-rpl_stop_slave_timeout	31536000
+rpl_stop_subordinate_timeout	31536000
 secure_auth	ON
 secure_file_priv	/var/lib/mysql-files/
 server_id	1
@@ -441,23 +441,23 @@ skip_external_locking	ON
 skip_name_resolve	ON
 skip_networking	OFF
 skip_show_database	OFF
-slave_allow_batching	OFF
-slave_checkpoint_group	512
-slave_checkpoint_period	300
-slave_compressed_protocol	OFF
-slave_exec_mode	STRICT
-slave_load_tmpdir	/tmp
-slave_max_allowed_packet	1073741824
-slave_net_timeout	60
-slave_parallel_type	DATABASE
-slave_parallel_workers	0
-slave_pending_jobs_size_max	16777216
-slave_preserve_commit_order	OFF
-slave_rows_search_algorithms	TABLE_SCAN,INDEX_SCAN
-slave_skip_errors	OFF
-slave_sql_verify_checksum	ON
-slave_transaction_retries	10
-slave_type_conversions
+subordinate_allow_batching	OFF
+subordinate_checkpoint_group	512
+subordinate_checkpoint_period	300
+subordinate_compressed_protocol	OFF
+subordinate_exec_mode	STRICT
+subordinate_load_tmpdir	/tmp
+subordinate_max_allowed_packet	1073741824
+subordinate_net_timeout	60
+subordinate_parallel_type	DATABASE
+subordinate_parallel_workers	0
+subordinate_pending_jobs_size_max	16777216
+subordinate_preserve_commit_order	OFF
+subordinate_rows_search_algorithms	TABLE_SCAN,INDEX_SCAN
+subordinate_skip_errors	OFF
+subordinate_sql_verify_checksum	ON
+subordinate_transaction_retries	10
+subordinate_type_conversions
 slow_launch_time	2
 slow_query_log	OFF
 slow_query_log_file	/var/lib/mysql/70d6bc44c952-slow.log
@@ -472,7 +472,7 @@ sql_notes	ON
 sql_quote_show_create	ON
 sql_safe_updates	OFF
 sql_select_limit	18446744073709551615
-sql_slave_skip_counter	0
+sql_subordinate_skip_counter	0
 sql_warnings	OFF
 ssl_ca	ca.pem
 ssl_capath
@@ -485,7 +485,7 @@ stored_program_cache	256
 super_read_only	OFF
 sync_binlog	1
 sync_frm	ON
-sync_master_info	10000
+sync_main_info	10000
 sync_relay_log	10000
 sync_relay_log_info	10000
 system_time_zone	JST
@@ -759,9 +759,9 @@ var (
 		"log_error_verbosity":                                3.0,
 		"log_output":                                         "FILE",
 		"log_queries_not_using_indexes":                      "OFF",
-		"log_slave_updates":                                  "OFF",
+		"log_subordinate_updates":                                  "OFF",
 		"log_slow_admin_statements":                          "OFF",
-		"log_slow_slave_statements":                          "OFF",
+		"log_slow_subordinate_statements":                          "OFF",
 		"log_statements_unsafe_for_binlog":                   "ON",
 		"log_syslog":                                         "OFF",
 		"log_syslog_facility":                                "daemon",
@@ -773,8 +773,8 @@ var (
 		"low_priority_updates":                               "OFF",
 		"lower_case_file_system":                             "OFF",
 		"lower_case_table_names":                             0.0,
-		"master_info_repository":                             "FILE",
-		"master_verify_checksum":                             "OFF",
+		"main_info_repository":                             "FILE",
+		"main_verify_checksum":                             "OFF",
 		"max_allowed_packet":                                 4.194304e+06,
 		"max_binlog_cache_size":                              1.8446744073709548e+19,
 		"max_binlog_size":                                    1.073741824e+09,
@@ -902,7 +902,7 @@ var (
 		"relay_log_space_limit":                                    0.0,
 		"report_port":                                              3306.0,
 		"require_secure_transport":                                 "OFF",
-		"rpl_stop_slave_timeout":                                   3.1536e+07,
+		"rpl_stop_subordinate_timeout":                                   3.1536e+07,
 		"secure_auth":                                              "ON",
 		"secure_file_priv":                                         "/var/lib/mysql-files/",
 		"server_id":                                                1.0,
@@ -924,22 +924,22 @@ var (
 		"skip_name_resolve":                                        "ON",
 		"skip_networking":                                          "OFF",
 		"skip_show_database":                                       "OFF",
-		"slave_allow_batching":                                     "OFF",
-		"slave_checkpoint_group":                                   512.0,
-		"slave_checkpoint_period":                                  300.0,
-		"slave_compressed_protocol":                                "OFF",
-		"slave_exec_mode":                                          "STRICT",
-		"slave_load_tmpdir":                                        "/tmp",
-		"slave_max_allowed_packet":                                 1.073741824e+09,
-		"slave_net_timeout":                                        60.0,
-		"slave_parallel_type":                                      "DATABASE",
-		"slave_parallel_workers":                                   0.0,
-		"slave_pending_jobs_size_max":                              1.6777216e+07,
-		"slave_preserve_commit_order":                              "OFF",
-		"slave_rows_search_algorithms":                             "TABLE_SCAN,INDEX_SCAN",
-		"slave_skip_errors":                                        "OFF",
-		"slave_sql_verify_checksum":                                "ON",
-		"slave_transaction_retries":                                10.0,
+		"subordinate_allow_batching":                                     "OFF",
+		"subordinate_checkpoint_group":                                   512.0,
+		"subordinate_checkpoint_period":                                  300.0,
+		"subordinate_compressed_protocol":                                "OFF",
+		"subordinate_exec_mode":                                          "STRICT",
+		"subordinate_load_tmpdir":                                        "/tmp",
+		"subordinate_max_allowed_packet":                                 1.073741824e+09,
+		"subordinate_net_timeout":                                        60.0,
+		"subordinate_parallel_type":                                      "DATABASE",
+		"subordinate_parallel_workers":                                   0.0,
+		"subordinate_pending_jobs_size_max":                              1.6777216e+07,
+		"subordinate_preserve_commit_order":                              "OFF",
+		"subordinate_rows_search_algorithms":                             "TABLE_SCAN,INDEX_SCAN",
+		"subordinate_skip_errors":                                        "OFF",
+		"subordinate_sql_verify_checksum":                                "ON",
+		"subordinate_transaction_retries":                                10.0,
 		"slow_launch_time":                                         2.0,
 		"slow_query_log":                                           "OFF",
 		"slow_query_log_file":                                      "/var/lib/mysql/70d6bc44c952-slow.log",
@@ -954,7 +954,7 @@ var (
 		"sql_quote_show_create":                                    "ON",
 		"sql_safe_updates":                                         "OFF",
 		"sql_select_limit":                                         1.8446744073709552e+19,
-		"sql_slave_skip_counter":                                   0.0,
+		"sql_subordinate_skip_counter":                                   0.0,
 		"sql_warnings":                                             "OFF",
 		"ssl_ca":                                                   "ca.pem",
 		"ssl_cert":                                                 "server-cert.pem",
@@ -963,7 +963,7 @@ var (
 		"super_read_only":                                          "OFF",
 		"sync_binlog":                                              1.0,
 		"sync_frm":                                                 "ON",
-		"sync_master_info":                                         10000.0,
+		"sync_main_info":                                         10000.0,
 		"sync_relay_log":                                           10000.0,
 		"sync_relay_log_info":                                      10000.0,
 		"system_time_zone":                                         "JST",

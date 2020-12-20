@@ -8,6 +8,10 @@ import (
 	"strings"
 )
 
+const (
+	GlobalVariablesColCount = 2
+)
+
 // JSONizeGlobalVariables returns result
 func JSONizeGlobalVariables(str string) {
 	gVar, err := ParseGlobalVariables(str)
@@ -32,7 +36,7 @@ func ParseGlobalVariables(str string) (map[string]interface{}, error) {
 	for _, line := range lines {
 		row := strings.Fields(line)
 
-		if len(row) != 2 {
+		if len(row) != GlobalVariablesColCount {
 			continue
 		}
 

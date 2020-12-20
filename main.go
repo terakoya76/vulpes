@@ -11,20 +11,14 @@ import (
 )
 
 func main() {
+	cobra.OnInitialize()
+	rootCmd.DisableSuggestions = false
+	rootCmd.AddCommand(globalStatusCmd, globalVariablesCmd, innodbStatusCmd, slaveStatusCmd)
+
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
 	}
-}
-
-func init() {
-	cobra.OnInitialize()
-	rootCmd.DisableSuggestions = false
-
-	rootCmd.AddCommand(globalStatusCmd)
-	rootCmd.AddCommand(globalVariablesCmd)
-	rootCmd.AddCommand(innodbStatusCmd)
-	rootCmd.AddCommand(slaveStatusCmd)
 }
 
 var rootCmd = &cobra.Command{

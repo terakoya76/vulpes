@@ -8,6 +8,10 @@ import (
 	"strings"
 )
 
+const (
+	GlobalStatusColCount = 2
+)
+
 // JSONizeGlobalStatus returns result
 func JSONizeGlobalStatus(str string) {
 	gStatus, err := ParseGlobalStatus(str)
@@ -32,7 +36,7 @@ func ParseGlobalStatus(str string) (map[string]interface{}, error) {
 	for _, line := range lines {
 		row := strings.Fields(line)
 
-		if len(row) != 2 {
+		if len(row) != GlobalStatusColCount {
 			continue
 		}
 

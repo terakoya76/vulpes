@@ -70,6 +70,8 @@ const (
 
 func (s Section) String() string {
 	switch s {
+	case StartOfInnodbMonitorOutput:
+		return ""
 	case BackgroundThread:
 		return "BACKGROUND THREAD"
 	case Semaphores:
@@ -165,6 +167,8 @@ func (p *InnodbStatusParser) parseContent(s Section) map[string]interface{} {
 		return parseIndividualBufferPoolInfoContent(p.content)
 	case RowOperations:
 		return parseRowOperationsContent(p.content)
+	case EndOfInnodbMonitorOutput:
+		return make(map[string]interface{})
 	default:
 		return make(map[string]interface{})
 	}
@@ -198,7 +202,7 @@ func countUpMetric(key string, increment int, result map[string]interface{}) map
 	return result
 }
 
-func calcRate(a string, b string) (float64, error) {
+func calcRate(a, b string) (float64, error) {
 	aFloat, err := strconv.ParseFloat(a, 64)
 	if err != nil {
 		return 0, err
@@ -467,10 +471,8 @@ func parseTransactionsContent(content []string) map[string]interface{} {
 					countUpMetric("transaction_lock_structs", num, result)
 				}
 				countUpMetric("locked_transactions", 1, result)
-			} else {
-				if num, err := strconv.Atoi(record[0]); err != nil {
-					countUpMetric("transaction_lock_structs", num, result)
-				}
+			} else if num, err := strconv.Atoi(record[0]); err != nil {
+				countUpMetric("transaction_lock_structs", num, result)
 			}
 		}
 	}
@@ -516,6 +518,7 @@ func parseFileIoContent(content []string) map[string]interface{} {
 		item = "Pending normal aio reads:"
 		if strings.HasPrefix(line, item) {
 			record := strings.Fields(line)
+			// nolint:gomnd
 			if len(record) >= 17 {
 				/*
 				 * The total number of the pending async I/O in normal reads
@@ -532,6 +535,7 @@ func parseFileIoContent(content []string) map[string]interface{} {
 		item = "ibuf aio reads"
 		if strings.HasPrefix(line, item) {
 			record := strings.Fields(line)
+			// nolint:gomnd
 			if len(record) >= 10 {
 				/*
 				 * The total number of the pending async I/O in insert_buffer reads
@@ -663,7 +667,7 @@ func parseInsertBufferAndAdaptiveHashIndexContent(content []string) map[string]i
 		if strings.HasPrefix(line, item) {
 			stmt := content[i+1]
 			parts := strings.Split(stmt, ", ")
-			insert, deleteMark, delete := parts[0], parts[1], parts[2]
+			insert, deleteMark, deletes := parts[0], parts[1], parts[2]
 
 			/*
 			 * The total number of the merged insert operations in insert_buffer
@@ -680,7 +684,7 @@ func parseInsertBufferAndAdaptiveHashIndexContent(content []string) map[string]i
 			/*
 			 * The total number of the merged delete operations in insert_buffer
 			 */
-			metricsDelete := strings.Fields(delete)
+			metricsDelete := strings.Fields(deletes)
 			result = fillMetric("insert_buffer_merged_deletes", metricsDelete[1], result)
 		}
 
@@ -688,7 +692,7 @@ func parseInsertBufferAndAdaptiveHashIndexContent(content []string) map[string]i
 		if strings.HasPrefix(line, item) {
 			stmt := content[i+1]
 			parts := strings.Split(stmt, ", ")
-			insert, deleteMark, delete := parts[0], parts[1], parts[2]
+			insert, deleteMark, deletes := parts[0], parts[1], parts[2]
 
 			/*
 			 * The total number of the discarded insert operations in insert_buffer
@@ -705,7 +709,7 @@ func parseInsertBufferAndAdaptiveHashIndexContent(content []string) map[string]i
 			/*
 			 * The total number of the discarded delete operations in insert_buffer
 			 */
-			metricsDelete := strings.Fields(delete)
+			metricsDelete := strings.Fields(deletes)
 			result = fillMetric("insert_buffer_discarded_deletes", metricsDelete[1], result)
 		}
 
@@ -1014,7 +1018,6 @@ func parseBufferPoolAndMemoryContent(content []string) map[string]interface{} {
 			rate, err = calcRate(metricYoungCreate[6], metricYoungCreate[8])
 			if err == nil {
 				result = fillMetric("buffer_pool_cache_hit_not_make_young_rate", rate, result)
-
 			}
 		}
 

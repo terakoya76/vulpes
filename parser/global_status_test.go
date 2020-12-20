@@ -9,6 +9,7 @@ import (
 )
 
 const (
+	// nolint:lll
 	globalStatus string = `
 Variable_name	Value
 Aborted_clients	0
@@ -369,6 +370,7 @@ Uptime_since_flush_status	8710
 )
 
 var (
+	// nolint:lll
 	globalStatusResult map[string]interface{} = map[string]interface{}{
 		"aborted_clients":                               0.0,
 		"aborted_connects":                              5.0,
@@ -720,6 +722,7 @@ var (
 	}
 )
 
+// nolint:dupl
 func TestParseGlobalStatus(t *testing.T) {
 	cases := []struct {
 		name     string

@@ -8,6 +8,10 @@ import (
 	"strings"
 )
 
+const (
+	SlaveStatusColCount = 2
+)
+
 // JSONizeSlaveStatus returns result
 func JSONizeSlaveStatus(str string) {
 	gVar, err := ParseSlaveStatus(str)
@@ -33,7 +37,7 @@ func ParseSlaveStatus(str string) (map[string]interface{}, error) {
 	for _, line := range lines {
 		row := strings.Split(line, ": ")
 
-		if len(row) != 2 {
+		if len(row) != SlaveStatusColCount {
 			continue
 		}
 

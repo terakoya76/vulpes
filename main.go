@@ -12,8 +12,9 @@ import (
 
 func main() {
 	cobra.OnInitialize()
-	rootCmd.DisableSuggestions = false
+
 	rootCmd.AddCommand(globalStatusCmd, globalVariablesCmd, innodbStatusCmd, slaveStatusCmd)
+	rootCmd.DisableSuggestions = false
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

@@ -12,7 +12,7 @@ const (
 	SlaveStatusColCount = 2
 )
 
-// JSONizeSlaveStatus returns result
+// JSONizeSlaveStatus returns result.
 func JSONizeSlaveStatus(str string) {
 	gVar, err := ParseSlaveStatus(str)
 	if err != nil {
@@ -27,7 +27,7 @@ func JSONizeSlaveStatus(str string) {
 	}
 }
 
-// ParseSlaveStatus returns result
+// ParseSlaveStatus returns result.
 func ParseSlaveStatus(str string) (map[string]interface{}, error) {
 	sStatus := make(map[string]interface{})
 	normStr := strings.TrimPrefix(str, "\n")
@@ -44,6 +44,7 @@ func ParseSlaveStatus(str string) (map[string]interface{}, error) {
 		varName := strings.ToLower(strings.TrimSpace(row[0]))
 		val := row[1]
 		num, err := strconv.ParseFloat(val, 64)
+
 		if err != nil {
 			sStatus[varName] = val
 		} else {

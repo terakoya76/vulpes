@@ -12,7 +12,7 @@ const (
 	GlobalStatusColCount = 2
 )
 
-// JSONizeGlobalStatus returns result
+// JSONizeGlobalStatus returns result.
 func JSONizeGlobalStatus(str string) {
 	gStatus, err := ParseGlobalStatus(str)
 	if err != nil {
@@ -27,12 +27,12 @@ func JSONizeGlobalStatus(str string) {
 	}
 }
 
-// ParseGlobalStatus returns result
+// ParseGlobalStatus returns result.
 func ParseGlobalStatus(str string) (map[string]interface{}, error) {
 	gStatus := make(map[string]interface{})
-
 	normStr := strings.TrimPrefix(str, "\n")
 	lines := strings.Split(normStr, "\n")
+
 	for _, line := range lines {
 		row := strings.Fields(line)
 
@@ -44,12 +44,14 @@ func ParseGlobalStatus(str string) (map[string]interface{}, error) {
 		if strings.HasPrefix(varName, "variable_name") {
 			continue
 		}
+
 		if strings.HasPrefix(varName, "rsa_public_key") {
 			continue
 		}
 
 		val := row[1]
 		num, err := strconv.ParseFloat(val, 64)
+
 		if err != nil {
 			gStatus[varName] = val
 		} else {

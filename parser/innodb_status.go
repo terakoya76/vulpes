@@ -10,7 +10,7 @@ import (
 	"github.com/imdario/mergo"
 )
 
-// JSONizeInnodbStatus returns result
+// JSONizeInnodbStatus returns result.
 func JSONizeInnodbStatus(str string) {
 	iStatus, err := ParseInnodbStatus(str)
 	if err != nil {
@@ -25,7 +25,7 @@ func JSONizeInnodbStatus(str string) {
 	}
 }
 
-// ParseInnodbStatus returns result
+// ParseInnodbStatus returns result.
 func ParseInnodbStatus(str string) (map[string]interface{}, error) {
 	result := make(map[string]interface{})
 	lines := strings.Split(str, "\n")
@@ -40,6 +40,7 @@ func ParseInnodbStatus(str string) (map[string]interface{}, error) {
 	for p.currPos < (len(p.source)-1) && p.currSection != EndOfInnodbMonitorOutput {
 		p.scanToNextSection()
 		metrics := p.parseContent(p.currSection)
+
 		if err := mergo.Merge(&result, metrics); err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 		}
@@ -124,10 +125,13 @@ func (p *InnodbStatusParser) scanToNextSection() {
 	}
 }
 
-// Sections are divided by the blocks like below
-// ------------
-// xxx yyyy zzz
-// ------------
+/*
+ * Sections are divided by the blocks like below.
+ * ------------
+ * xxx yyyy zzz.
+ * ------------
+ *.
+ */
 func (p *InnodbStatusParser) checkNextSection() bool {
 	return isSectionLabel(p.maybeLabel())
 }
@@ -218,6 +222,7 @@ func calcRate(a, b string) (float64, error) {
 
 func parseStartOfInnodbMonitorOutput(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
+
 	for _, line := range content {
 		item := "Per second averages calculated from the last "
 		if strings.HasPrefix(line, item) {
@@ -234,6 +239,7 @@ func parseStartOfInnodbMonitorOutput(content []string) map[string]interface{} {
 
 func parseBackgroundThreadContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
+
 	for _, line := range content {
 		item := "srv_master_thread loops: "
 		if strings.HasPrefix(line, item) {
@@ -274,6 +280,7 @@ func parseBackgroundThreadContent(content []string) map[string]interface{} {
 
 func parseSemaphoresContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
+
 	for _, line := range content {
 		line = strings.ReplaceAll(line, "OS waits", "os_waits")
 
@@ -371,13 +378,13 @@ func parseSemaphoresContent(content []string) map[string]interface{} {
 	return result
 }
 
-// Not support currently
+// Not support currently.
 func parseDeadlocksContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 	return result
 }
 
-// Not support currently
+// Not support currently.
 func parseForeignKeyErrorContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 	return result
@@ -385,6 +392,7 @@ func parseForeignKeyErrorContent(content []string) map[string]interface{} {
 
 func parseTransactionsContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
+
 	for _, line := range content {
 		item := "Trx id counter "
 		if strings.HasPrefix(line, item) {
@@ -466,10 +474,12 @@ func parseTransactionsContent(content []string) map[string]interface{} {
 			 * Not same as the number of locked rows, there are normally many rows for each lock structure
 			 */
 			record := strings.Fields(line)
+
 			if strings.HasPrefix(line, "LOCK WAIT") {
 				if num, err := strconv.Atoi(record[2]); err != nil {
 					countUpMetric("transaction_lock_structs", num, result)
 				}
+
 				countUpMetric("locked_transactions", 1, result)
 			} else if num, err := strconv.Atoi(record[0]); err != nil {
 				countUpMetric("transaction_lock_structs", num, result)
@@ -482,6 +492,7 @@ func parseTransactionsContent(content []string) map[string]interface{} {
 
 func parseFileIoContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
+
 	for _, line := range content {
 		item := "(insert buffer thread)"
 		if strings.Contains(line, item) {
@@ -632,6 +643,7 @@ func parseFileIoContent(content []string) map[string]interface{} {
 
 func parseInsertBufferAndAdaptiveHashIndexContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
+
 	for i, line := range content {
 		item := "Ibuf: size "
 		if strings.HasPrefix(line, item) {
@@ -731,11 +743,13 @@ func parseInsertBufferAndAdaptiveHashIndexContent(content []string) map[string]i
 			result = fillMetric("non_hash_searches_per_sec", metricsNonHash[0], result)
 		}
 	}
+
 	return result
 }
 
 func parseLogContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
+
 	for _, line := range content {
 		item := "Log sequence number "
 		if strings.HasPrefix(line, item) {
@@ -806,6 +820,7 @@ func parseLogContent(content []string) map[string]interface{} {
 
 func parseBufferPoolAndMemoryContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
+
 	for _, line := range content {
 		item := "Total large memory allocated "
 		if strings.HasPrefix(line, item) {
@@ -999,6 +1014,7 @@ func parseBufferPoolAndMemoryContent(content []string) map[string]interface{} {
 			 */
 			metricCacheHit := strings.Fields(cacheHit)
 			rate, err := calcRate(metricCacheHit[4], metricCacheHit[6])
+
 			if err == nil {
 				result = fillMetric("buffer_pool_cache_hit_rate", rate, result)
 			}
@@ -1101,10 +1117,11 @@ func parseBufferPoolAndMemoryContent(content []string) map[string]interface{} {
 			result = fillMetric("buffer_pool_io_unzip_cur", metricUnzipCur, result)
 		}
 	}
+
 	return result
 }
 
-// Not support currently
+// Not support currently.
 func parseIndividualBufferPoolInfoContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 	return result
@@ -1112,6 +1129,7 @@ func parseIndividualBufferPoolInfoContent(content []string) map[string]interface
 
 func parseRowOperationsContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
+
 	for _, line := range content {
 		item := " queries inside InnoDB, "
 		if strings.Contains(line, item) {
@@ -1203,11 +1221,13 @@ func parseRowOperationsContent(content []string) map[string]interface{} {
 
 func (p *InnodbStatusParser) stepNextSection() {
 	p.content = make([]string, 0)
+
 	for i := p.currSection; i <= EndOfInnodbMonitorOutput; i++ {
 		if p.maybeLabel() == i.String() {
 			p.currSection = i
 			break
 		}
 	}
+
 	p.currPos += 3
 }

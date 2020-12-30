@@ -743,6 +743,7 @@ func TestParseGlobalStatus(t *testing.T) {
 		if err != nil {
 			t.Errorf("err: %s\n", err.Error())
 		}
+
 		if !assert.Equal(t, c.expected, actual) {
 			t.Errorf("case: %s is failed, expected: %+v, actual: %+v\n", c.name, c.expected, actual)
 		}

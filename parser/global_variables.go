@@ -12,7 +12,7 @@ const (
 	GlobalVariablesColCount = 2
 )
 
-// JSONizeGlobalVariables returns result
+// JSONizeGlobalVariables returns result.
 func JSONizeGlobalVariables(str string) {
 	gVar, err := ParseGlobalVariables(str)
 	if err != nil {
@@ -27,12 +27,12 @@ func JSONizeGlobalVariables(str string) {
 	}
 }
 
-// ParseGlobalVariables returns result
+// ParseGlobalVariables returns result.
 func ParseGlobalVariables(str string) (map[string]interface{}, error) {
 	gVar := make(map[string]interface{})
-
 	normStr := strings.TrimPrefix(str, "\n")
 	lines := strings.Split(normStr, "\n")
+
 	for _, line := range lines {
 		row := strings.Fields(line)
 
@@ -47,6 +47,7 @@ func ParseGlobalVariables(str string) (map[string]interface{}, error) {
 
 		val := row[1]
 		num, err := strconv.ParseFloat(val, 64)
+
 		if err != nil {
 			gVar[varName] = val
 		} else {

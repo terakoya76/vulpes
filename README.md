@@ -1,5 +1,6 @@
 # vulpes
 ![test](https://github.com/terakoya76/vulpes/workflows/test/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/terakoya76/vulpes/badge.svg?branch=master)](https://coveralls.io/github/terakoya76/vulpes?branch=master)
 
 MySQL metrics parser.
 

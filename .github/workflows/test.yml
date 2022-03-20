@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        go: [1.13, 1.14, 1.15]
+        go: [1.15, 1.16, 1.17]
         os: [ubuntu-18.04, ubuntu-20.04]
 
     name: all
@@ -34,5 +34,22 @@ jobs:
       if: steps.cache-go-sum.outputs.cache-hit != 'true'
       run: go mod download
 
+    - name: lint
+      run: make lint
+
     - name: test
-      run: make test
+      run: go test -race -v -coverprofile coverage.out -covermode atomic ./...
+
+    - name: Convert coverage to lcov
+      uses: jandelgado/gcov2lcov-action@v1.0.0
+      with:
+        infile: coverage.out
+        outfile: coverage.lcov
+      if: "matrix.os == 'ubuntu-20.04' && matrix.go == 1.17"
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        path-to-lcov: coverage.lcov
+      if: "matrix.os == 'ubuntu-20.04' && matrix.go == 1.17"

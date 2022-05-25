@@ -72,7 +72,7 @@ Master_SSL_Verify_Server_Cert: No
 )
 
 var (
-	slaveStatusResult map[string]interface{} = map[string]interface{}{
+	slaveStatusResult = map[string]interface{}{
 		"auto_position":                 0.0,
 		"connect_retry":                 60.0,
 		"exec_master_log_pos":           154.0,

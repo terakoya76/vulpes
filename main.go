@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -34,7 +34,7 @@ var globalStatusCmd = &cobra.Command{
 	Short: "JSONize SHOW GLOBAL STATUS OUTPUT from stdin",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		stdin, err := ioutil.ReadAll(os.Stdin)
+		stdin, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 		} else {
@@ -48,7 +48,7 @@ var globalVariablesCmd = &cobra.Command{
 	Short: "JSONize SHOW GLOBAL VARIABLES OUTPUT from stdin",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		stdin, err := ioutil.ReadAll(os.Stdin)
+		stdin, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 		} else {
@@ -62,7 +62,7 @@ var innodbStatusCmd = &cobra.Command{
 	Short: "JSONize SHOW INNODB STATUS OUTPUT from stdin",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		stdin, err := ioutil.ReadAll(os.Stdin)
+		stdin, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 		} else {
@@ -76,7 +76,7 @@ var slaveStatusCmd = &cobra.Command{
 	Short: "JSONize SHOW SLAVE STATUS OUTPUT from stdin",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		stdin, err := ioutil.ReadAll(os.Stdin)
+		stdin, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 		} else {

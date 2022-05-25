@@ -390,6 +390,7 @@ func parseForeignKeyErrorContent(content []string) map[string]interface{} {
 	return result
 }
 
+// nolint:gocyclo
 func parseTransactionsContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 
@@ -490,6 +491,7 @@ func parseTransactionsContent(content []string) map[string]interface{} {
 	return result
 }
 
+// nolint:funlen
 func parseFileIoContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 
@@ -818,6 +820,7 @@ func parseLogContent(content []string) map[string]interface{} {
 	return result
 }
 
+// nolint:funlen,gocyclo
 func parseBufferPoolAndMemoryContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 

@@ -314,7 +314,7 @@ END OF INNODB MONITOR OUTPUT
 )
 
 var (
-	innodbStatusResult56 map[string]interface{} = map[string]interface{}{
+	innodbStatusResult56 = map[string]interface{}{
 		// background_thread
 		"background_active_thread_loops":         178.0,
 		"background_idle_thread_loops":           1.244368e+06,
@@ -413,7 +413,7 @@ var (
 		"trx_id_counter":          1.093821584e+09,
 	}
 
-	innodbStatusResult57 map[string]interface{} = map[string]interface{}{
+	innodbStatusResult57 = map[string]interface{}{
 		// background_thread
 		"background_active_thread_loops":         1.0,
 		"background_idle_thread_loops":           2.0,

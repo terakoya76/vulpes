@@ -1,6 +1,6 @@
 lint:
 	# for local
-	# GO111MODULE=on go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.2; go mod tidy
+	# go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.2
 	@if [ -z `which golangci-lint 2> /dev/null` ]; then \
 		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sudo sh -s -- -b $(go env GOPATH)/bin v1.46.2; \
 	fi

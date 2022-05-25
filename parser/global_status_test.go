@@ -371,7 +371,7 @@ Uptime_since_flush_status	8710
 
 var (
 	// nolint:lll
-	globalStatusResult map[string]interface{} = map[string]interface{}{
+	globalStatusResult = map[string]interface{}{
 		"aborted_clients":                               0.0,
 		"aborted_connects":                              5.0,
 		"binlog_cache_disk_use":                         0.0,

@@ -520,7 +520,7 @@ wait_timeout	28800
 
 var (
 	// nolint:lll
-	globalVariablesResult map[string]interface{} = map[string]interface{}{
+	globalVariablesResult = map[string]interface{}{
 		"auto_generate_certs":                                "ON",
 		"auto_increment_increment":                           1.0,
 		"auto_increment_offset":                              1.0,

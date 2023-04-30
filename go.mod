@@ -3,7 +3,7 @@ module github.com/terakoya76/vulpes
 go 1.14
 
 require (
-	github.com/imdario/mergo v0.3.14
+	github.com/imdario/mergo v0.3.15
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/spf13/cobra v1.7.0
 	github.com/stretchr/testify v1.8.2

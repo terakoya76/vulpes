@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	// nolint:lll
+	//nolint:lll
 	globalVariables string = `
 Variable_name	Value
 auto_generate_certs	ON
@@ -519,7 +519,7 @@ wait_timeout	28800
 )
 
 var (
-	// nolint:lll
+	//nolint:lll
 	globalVariablesResult = map[string]interface{}{
 		"auto_generate_certs":                                "ON",
 		"auto_increment_increment":                           1.0,
@@ -996,7 +996,7 @@ var (
 	}
 )
 
-// nolint:dupl
+//nolint:dupl
 func TestParseGlobalVariables(t *testing.T) {
 	cases := []struct {
 		name     string

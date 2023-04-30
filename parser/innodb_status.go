@@ -379,18 +379,18 @@ func parseSemaphoresContent(content []string) map[string]interface{} {
 }
 
 // Not support currently.
-func parseDeadlocksContent(content []string) map[string]interface{} {
+func parseDeadlocksContent(_ []string) map[string]interface{} {
 	result := make(map[string]interface{})
 	return result
 }
 
 // Not support currently.
-func parseForeignKeyErrorContent(content []string) map[string]interface{} {
+func parseForeignKeyErrorContent(_ []string) map[string]interface{} {
 	result := make(map[string]interface{})
 	return result
 }
 
-// nolint:gocyclo
+//nolint:gocyclo
 func parseTransactionsContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 
@@ -491,7 +491,7 @@ func parseTransactionsContent(content []string) map[string]interface{} {
 	return result
 }
 
-// nolint:funlen
+//nolint:funlen
 func parseFileIoContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 
@@ -531,7 +531,7 @@ func parseFileIoContent(content []string) map[string]interface{} {
 		item = "Pending normal aio reads:"
 		if strings.HasPrefix(line, item) {
 			record := strings.Fields(line)
-			// nolint:gomnd
+			//nolint:gomnd
 			if len(record) >= 17 {
 				/*
 				 * The total number of the pending async I/O in normal reads
@@ -548,7 +548,7 @@ func parseFileIoContent(content []string) map[string]interface{} {
 		item = "ibuf aio reads"
 		if strings.HasPrefix(line, item) {
 			record := strings.Fields(line)
-			// nolint:gomnd
+			//nolint:gomnd
 			if len(record) >= 10 {
 				/*
 				 * The total number of the pending async I/O in insert_buffer reads
@@ -820,7 +820,7 @@ func parseLogContent(content []string) map[string]interface{} {
 	return result
 }
 
-// nolint:funlen,gocyclo
+//nolint:funlen,gocyclo
 func parseBufferPoolAndMemoryContent(content []string) map[string]interface{} {
 	result := make(map[string]interface{})
 
@@ -1125,7 +1125,7 @@ func parseBufferPoolAndMemoryContent(content []string) map[string]interface{} {
 }
 
 // Not support currently.
-func parseIndividualBufferPoolInfoContent(content []string) map[string]interface{} {
+func parseIndividualBufferPoolInfoContent(_ []string) map[string]interface{} {
 	result := make(map[string]interface{})
 	return result
 }

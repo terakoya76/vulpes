@@ -121,7 +121,7 @@ Number of rows inserted 3089, updated 220, deleted 212, read 2099881
 END OF INNODB MONITOR OUTPUT
 `
 
-	// nolint:lll
+	//nolint:lll
 	innodbStatus57 string = `
 *************************** 1. row ***************************
   Type: InnoDB

@@ -107,7 +107,7 @@ var (
 	}
 )
 
-// nolint:dupl
+//nolint:dupl
 func TestParseSlaveStatus(t *testing.T) {
 	cases := []struct {
 		name     string
